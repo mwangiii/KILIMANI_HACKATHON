@@ -5,14 +5,6 @@ from app import db
 from app import app
 from flask import Flask, request, redirect, url_for, render_template, session, jsonify
 from werkzeug.security import generate_password_hash
-import os
-
-app = Flask(__name__)
-app.secret_key = 'secret_key'
-
-
-
-UPLOAD_FOLDER =  'static/profile_photos'
 
 
 @app.route('/')
@@ -45,7 +37,13 @@ def register():
     if data.get('phone') is None:
         add_error_to_list(errors, 'phone', 'phone is required')
 
-
+    # check if user exists
+    user = User.query.filter_by(email=data.get('email')).first()
+    if user:
+        add_error_to_list(errors, 'email', 'email already exists')
+    user = User.query.filter_by(username=data.get('username')).first()
+    if user:
+        add_error_to_list(errors, 'username', 'username already exists')
     new_user = User(
         userid=str(uuid.uuid4()),
         username=data.get('username'),

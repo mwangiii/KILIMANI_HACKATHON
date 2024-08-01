@@ -1,12 +1,15 @@
 # import sqlachemy and create a db object
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy   
+from flask_sqlalchemy import SQLAlchemy 
 
 app = Flask(__name__)
-db = SQLAlchemy()
 
-#`import the routes
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres.yjcwujxfuochezvwnndp:QfGmTEjjPnfnolJN@aws-0-us-east-1.pooler.supabase.com:6543/postgres'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+from app import models
 from app import routes
 
-# import the User model
-from app.models import User
+with app.app_context():
+    db.create_all()
