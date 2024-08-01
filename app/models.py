@@ -7,6 +7,7 @@ class User(db.Model):
     profilepicture = db.Column(db.String)
     username = db.Column(db.String, unique=True, nullable=False)
     firstname = db.Column(db.String)
+    lastname = db.Column(db.String)
     email = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
     phone = db.Column(db.String)
@@ -20,7 +21,7 @@ class Posts(db.Model):
     author = db.Column(db.String, db.ForeignKey('users.userid'))
     time = db.Column(db.DateTime)
 
-class Comment(db.Model):
+class Comments(db.Model):
     __tablename__ = 'comments'
 
     commentid = db.Column(db.String, primary_key=True)
