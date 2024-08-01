@@ -1,5 +1,6 @@
 # import sqlachemy and create a db object
 from flask import Flask
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy 
 
 app = Flask(__name__)
@@ -10,6 +11,6 @@ db = SQLAlchemy(app)
 
 from app import models
 from app import routes
-
-with app.app_context():
-    db.create_all()
+migrate = Migrate(app, db)
+# with app.app_context():
+#     db.create_all()

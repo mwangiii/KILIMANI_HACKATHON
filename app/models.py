@@ -11,6 +11,8 @@ class User(db.Model):
     email = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
     phone = db.Column(db.String)
+    roles = db.Column(db.String, default='user') 
+
 
 class Posts(db.Model):
     __tablename__ = 'posts'
@@ -47,9 +49,10 @@ class Events (db.Model):
     description = db.Column(db.String)
 
 
-class High_Alert_areas (db.Model):
+class HighAlertAreas (db.Model):
     __tablename__ = 'high_alert_areas'
 
     areaid = db.Column(db.String, primary_key=True)
     area = db.Column(db.String)
     description = db.Column(db.String)
+
