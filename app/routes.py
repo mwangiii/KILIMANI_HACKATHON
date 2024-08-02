@@ -187,6 +187,23 @@ def admin_remove_comment(comment_id):
     except Exception as e:
         db.session.rollback()
         return jsonify({"message": "An error occurred", "error": str(e)}), 500
+    
+
+
+# get all comments by commentId
+@app.route('/user/comments/<comment_id>', methods=['GET'])
+def get_comment_by_id(comment_id):
+    """ Get all comments by commentId """
+    comment = Comments.query.filter_by(commentid=comment_id).first()
+    if not comment:
+        return jsonify({"message": "Comment not found"}), 404
+    return jsonify({
+        "commentid": comment.commentid,
+        "content": comment.content,
+        "author": comment.author,
+        "post": comment.postid,
+        "time": comment.time
+    }), 200
          
 
 @app.route('/admin/<admin_id>/post', methods=['POST'])
@@ -273,7 +290,7 @@ def admin_remove_post(post_id):
         return jsonify({"message": "An error occurred", "error": str(e)}), 500
 
 
-@app.route('/user/vote/<post_id>', methods=['POST'])
+@app.route('/user/<userid>/vote', methods=['POST'])
 def vote(post_id):
     """User votes on a post"""
     post = Posts.query.filter_by(postid=post_id).first()
