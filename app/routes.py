@@ -108,21 +108,24 @@ def login_user():
 
     return jsonify(response_successful), 200
 
-
 @app.route('/user/posts', methods=['GET'])
 def get_posts():
     """ Get all posts """
-    posts = Posts.query.all()
+    posts = Posts.query.join(User).all()  
     posts_data = []
     for post in posts:
+        user = User.query.filter_by(userid=post.author).first()  
         posts_data.append({
             "postid": post.postid,
             "title": post.title,
             "content": post.content,
-            "author": post.author,
+            "author": user.username if user else None,
             "time": post.time
         })
     return jsonify(posts_data), 200
+
+
+
 
 @app.route('/user/<user_id>/comment', methods=['POST'])
 def user_post_comment(user_id):
