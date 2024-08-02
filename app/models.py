@@ -29,6 +29,7 @@ class Comments(db.Model):
     commentid = db.Column(db.String, primary_key=True)
     content = db.Column(db.String)
     author = db.Column(db.String, db.ForeignKey('users.userid'))
+    postid = db.Column(db.String, db.ForeignKey('posts.postid'))
     time = db.Column(db.DateTime)
 
 
